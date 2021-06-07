@@ -1,0 +1,43 @@
+#calculadora {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(123, 59, 182);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#display input {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  font-size: 18pt;
+  padding: 12px;
+  outline: 0;
+  border: 0px;
+  background-color: rgb(245, 245, 245)
+}
+
+#display input:first-child {
+  border-radius: 5px 5px 0 0;
+  margin-bottom: -15px;
+}
+#display input:last-child {
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 5px;
+}
+
+#numbers input {
+  font-size: 18pt;
+  padding: 18px 27px;
+  font-weight: 500;
+  margin: 10px 4px 0 4px;
+  border-radius: 5px;
+  border: 0px;
+}
+
+#numbers input:hover {
+  background-color: rgb(224, 224, 224);
+  cursor: pointer;
+}
