@@ -8,6 +8,25 @@
   border-radius: 10px;
 }
 
+#divreset input {
+  font-size: 18pt;
+  font-weight: 500;
+  margin: 10px 4px 0 4px;
+  border-radius: 5px;
+  border: 0px;
+}
+#divreset input#reset {
+  padding: 18px 48px;
+}
+#divreset input#resetall {
+  padding: 18px 33px;
+}
+#divreset input:hover,
+#numbers input:hover {
+  background-color: rgb(224, 224, 224);
+  cursor: pointer;
+}
+
 #display input {
   display: flex;
   flex-direction: column;
@@ -37,7 +56,6 @@
   border: 0px;
 }
 
-#numbers input:hover {
-  background-color: rgb(224, 224, 224);
-  cursor: pointer;
+#numbers input#zero {
+  padding: 18px 66.5px;
 }

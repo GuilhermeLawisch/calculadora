@@ -1,6 +1,7 @@
-const values = []
-const simbolos = []
+let values = []
+let simbolos = []
 let index = 0
+let lastValue = 0
 
 const AdicionarNumero = (value) => {
   const text = document.getElementById('text')
@@ -17,6 +18,8 @@ const AdicionarNumero = (value) => {
     const valueAlreadyExists = text.getAttribute('value')
     text.setAttribute('value', `${valueAlreadyExists}${value}`)
   }
+
+  Resultado()
 }
 
 const AdicionarSinal = (value) => {
@@ -31,10 +34,10 @@ const AdicionarSinal = (value) => {
       text.setAttribute('value', `${valueAlreadyExists} - `)
       break;
     case 3:   //  MULTIPLICAÇÃO
-      text.setAttribute('value', `${valueAlreadyExists} * `)
+      text.setAttribute('value', `${valueAlreadyExists} x `)
       break;
     case 4:   //  DIVISÃO
-      text.setAttribute('value', `${valueAlreadyExists} / `)
+      text.setAttribute('value', `${valueAlreadyExists} ÷ `)
       break;
     default:
       break;
@@ -47,7 +50,9 @@ const AdicionarSinal = (value) => {
 
 const AdicionarVirgula = () => {
   values[index] += ','
-  document.getElementById('text').setAttribute('value', values[index])
+  const text = document.getElementById('text')
+  const valueAlreadyExists = text.getAttribute('value')
+  text.setAttribute('value', `${valueAlreadyExists},`)
 }
 
 const Resultado = () => {
@@ -55,12 +60,6 @@ const Resultado = () => {
 
   for (let i = 1; i < values.length; i++) {
     switch (simbolos[i - 1]) {
-      case 1:   //  ADIÇÃO
-        result += Number(values[i].replace(',','.'));
-        break;
-      case 2:   //  SUBTRAÇÃO
-        result -= Number(values[i].replace(',','.'));
-        break;
       case 3:   //  MULTIPLICAÇÃO
         result *= Number(values[i].replace(',','.'));
         break;
@@ -71,8 +70,51 @@ const Resultado = () => {
         break;
     }
   }
-  
-  document.getElementById('result').setAttribute('value', result)
+
+  for (let i = 1; i < values.length; i++) {
+    switch (simbolos[i - 1]) {
+      case 1:   //  ADIÇÃO
+        result += Number(values[i].replace(',','.'));
+        break;
+      case 2:   //  SUBTRAÇÃO
+        result -= Number(values[i].replace(',','.'));
+        break;
+      default:
+        break;
+    }
+  }
+
+  const resultId = document.getElementById('result')
+  if (result == 0) {
+    resultId.setAttribute('value', '')
+  } else {
+    resultId.setAttribute('value', String(result).replace('.',','))
+  }
+}
+
+const Reset = () => {
+  const text = document.getElementById('text')
+
+  const valueNoFormated = values[index]
+
+  const valueFormated = valueNoFormated.slice(0, valueNoFormated.length - 1)
+
+  values[index] = valueFormated
+
+  const valueAlreadyExists = text.getAttribute('value')
+
+  text.setAttribute('value', `${valueAlreadyExists.slice(0, valueAlreadyExists.length - 1)}`)
+
+  Resultado()
+}
+
+const ResetAll = () => {
+  values = []
+  simbolos = []
+  index = 0
+
+  document.getElementById('text').setAttribute('value', '')
+  document.getElementById('result').setAttribute('value', '')
 }
 
 document.getElementById('zero').addEventListener('click', () => AdicionarNumero('0'))
@@ -86,7 +128,6 @@ document.getElementById('sete').addEventListener('click', () => AdicionarNumero(
 document.getElementById('oito').addEventListener('click', () => AdicionarNumero('8'))
 document.getElementById('nove').addEventListener('click', () => AdicionarNumero('9'))
 
-
 document.getElementById('adicionar').addEventListener('click', () => AdicionarSinal(1))
 document.getElementById('subtrair').addEventListener('click', () => AdicionarSinal(2))
 document.getElementById('multiplicar').addEventListener('click', () => AdicionarSinal(3))
@@ -94,4 +135,5 @@ document.getElementById('dividir').addEventListener('click', () => AdicionarSina
 
 document.getElementById('virgula').addEventListener('click', () => AdicionarVirgula())
 
-document.getElementById('resultado').addEventListener('click', () => Resultado())
+document.getElementById('reset').addEventListener('click', () => Reset())
+document.getElementById('resetall').addEventListener('click', () => ResetAll())
