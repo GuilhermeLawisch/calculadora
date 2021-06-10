@@ -16,10 +16,10 @@
   border: 0px;
 }
 #divreset input#reset {
-  padding: 18px 48px;
+  padding: 18px 42px;
 }
 #divreset input#resetall {
-  padding: 18px 33px;
+  padding: 18px 27px;
 }
 #divreset input:hover,
 #numbers input:hover {

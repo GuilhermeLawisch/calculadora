@@ -1,9 +1,8 @@
 let values = []
-let simbolos = []
+let operators = []
 let index = 0
-let lastValue = 0
 
-const AdicionarNumero = (value) => {
+const AddNumber = (value) => {
   const text = document.getElementById('text')
   
   if (values[index]) {
@@ -19,10 +18,10 @@ const AdicionarNumero = (value) => {
     text.setAttribute('value', `${valueAlreadyExists}${value}`)
   }
 
-  Resultado()
+  ShowResult()
 }
 
-const AdicionarSinal = (value) => {
+const AddOperator = (value) => {
   const text = document.getElementById('text')
   const valueAlreadyExists = text.getAttribute('value')
 
@@ -43,52 +42,79 @@ const AdicionarSinal = (value) => {
       break;
   }
 
-  simbolos[index] = value
+  operators[index] = value
 
   index++
 }
 
-const AdicionarVirgula = () => {
+const AddComma = () => {
   values[index] += ','
   const text = document.getElementById('text')
   const valueAlreadyExists = text.getAttribute('value')
   text.setAttribute('value', `${valueAlreadyExists},`)
 }
 
-const Resultado = () => {
-  let result = Number(values[0].replace(',','.'))
+const ShowResult = () => {
+  if (values.length > 1) {
+    let resultParse = []
+    let operatorsParse = []
 
-  for (let i = 1; i < values.length; i++) {
-    switch (simbolos[i - 1]) {
-      case 3:   //  MULTIPLICAÇÃO
-        result *= Number(values[i].replace(',','.'));
-        break;
-      case 4:   //  DIVISÃO
-        result /= Number(values[i].replace(',','.'));
-        break;
-      default:
-        break;
+    for (let i = 1; i < values.length; i++) {
+      resultParse.push(values[0])
+
+      switch (operators[i-1]) {
+        case 1:   //  ADIÇÃO
+        case 2:   //  SUBTRAÇÃO
+          resultParse.push(values[i])
+          operatorsParse.push(operators[i-1])
+          break;
+        case 3:   //  MULTIPLICAÇÃO
+          resultParse[i-1] = String(Number(resultParse[i-1]) * Number(values[i].replace(',','.'))); 
+          break;
+        case 4:   //  DIVISÃO
+          resultParse[i-1] = String(Number(resultParse[i-1]) / Number(values[i].replace(',','.'))); 
+          break;
+        default:
+          resultParse.push(values[i])
+          operatorsParse.push(operators[i-1])
+          break;
+      }
     }
-  }
+    console.log(values)
+    console.log(operators)
+    console.log(resultParse)
+    console.log(operatorsParse)
 
-  for (let i = 1; i < values.length; i++) {
-    switch (simbolos[i - 1]) {
-      case 1:   //  ADIÇÃO
-        result += Number(values[i].replace(',','.'));
-        break;
-      case 2:   //  SUBTRAÇÃO
-        result -= Number(values[i].replace(',','.'));
-        break;
-      default:
-        break;
+    let result = Number(resultParse[0].replace(',','.'))
+
+    for (let i = 1; i < resultParse.length; i++) {
+      switch (operatorsParse[i - 1]) {
+        case 1:   //  ADIÇÃO
+          result += Number(resultParse[i].replace(',','.'));
+          break;
+        case 2:   //  SUBTRAÇÃO
+          result -= Number(resultParse[i].replace(',','.'));
+          break;
+        default:
+          break;
+      }
     }
-  }
 
-  const resultId = document.getElementById('result')
-  if (result == 0) {
-    resultId.setAttribute('value', '')
+    const resultId = document.getElementById('result')
+    if (result == 0) {
+      resultId.setAttribute('value', '')
+    } else {
+      resultId.setAttribute('value', String(result).replace('.',','))
+    }
   } else {
-    resultId.setAttribute('value', String(result).replace('.',','))
+    let result = Number(values[0].replace(',','.'))
+
+    const resultId = document.getElementById('result')
+    if (result == 0) {
+      resultId.setAttribute('value', '')
+    } else {
+      resultId.setAttribute('value', String(result).replace('.',','))
+    }
   }
 }
 
@@ -105,35 +131,35 @@ const Reset = () => {
 
   text.setAttribute('value', `${valueAlreadyExists.slice(0, valueAlreadyExists.length - 1)}`)
 
-  Resultado()
+  ShowResult()
 }
 
 const ResetAll = () => {
   values = []
-  simbolos = []
+  operators = []
   index = 0
 
   document.getElementById('text').setAttribute('value', '')
   document.getElementById('result').setAttribute('value', '')
 }
 
-document.getElementById('zero').addEventListener('click', () => AdicionarNumero('0'))
-document.getElementById('um').addEventListener('click', () => AdicionarNumero('1'))
-document.getElementById('dois').addEventListener('click', () => AdicionarNumero('2'))
-document.getElementById('tres').addEventListener('click', () => AdicionarNumero('3'))
-document.getElementById('quatro').addEventListener('click', () => AdicionarNumero('4'))
-document.getElementById('cinco').addEventListener('click', () => AdicionarNumero('5'))
-document.getElementById('seis').addEventListener('click', () => AdicionarNumero('6'))
-document.getElementById('sete').addEventListener('click', () => AdicionarNumero('7'))
-document.getElementById('oito').addEventListener('click', () => AdicionarNumero('8'))
-document.getElementById('nove').addEventListener('click', () => AdicionarNumero('9'))
+document.getElementById('zero').addEventListener('click', () => AddNumber('0'))
+document.getElementById('one').addEventListener('click', () => AddNumber('1'))
+document.getElementById('two').addEventListener('click', () => AddNumber('2'))
+document.getElementById('three').addEventListener('click', () => AddNumber('3'))
+document.getElementById('four').addEventListener('click', () => AddNumber('4'))
+document.getElementById('five').addEventListener('click', () => AddNumber('5'))
+document.getElementById('six').addEventListener('click', () => AddNumber('6'))
+document.getElementById('seven').addEventListener('click', () => AddNumber('7'))
+document.getElementById('eight').addEventListener('click', () => AddNumber('8'))
+document.getElementById('nine').addEventListener('click', () => AddNumber('9'))
 
-document.getElementById('adicionar').addEventListener('click', () => AdicionarSinal(1))
-document.getElementById('subtrair').addEventListener('click', () => AdicionarSinal(2))
-document.getElementById('multiplicar').addEventListener('click', () => AdicionarSinal(3))
-document.getElementById('dividir').addEventListener('click', () => AdicionarSinal(4))
+document.getElementById('addition').addEventListener('click', () => AddOperator(1))
+document.getElementById('subtraction').addEventListener('click', () => AddOperator(2))
+document.getElementById('multiplication').addEventListener('click', () => AddOperator(3))
+document.getElementById('division').addEventListener('click', () => AddOperator(4))
 
-document.getElementById('virgula').addEventListener('click', () => AdicionarVirgula())
+document.getElementById('comma').addEventListener('click', () => AddComma())
 
 document.getElementById('reset').addEventListener('click', () => Reset())
 document.getElementById('resetall').addEventListener('click', () => ResetAll())
